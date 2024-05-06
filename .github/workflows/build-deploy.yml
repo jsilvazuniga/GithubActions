@@ -1,0 +1,19 @@
+name: Build and Deploy
+run-name:  Build and Deploy Angular application
+on:
+  workflow_dispatch:
+      inputs:
+        environment:
+            description: 'Environment to run'
+            type: environment
+            required: true
+            default: "DEV"
+            options: ["DEV", "VAL", "PROD"]
+jobs:
+    dev:
+        runs-on: ubuntu-latest
+        steps:
+            - run: |
+                echo "USERNAME: ${{ github.actor }}"
+                echo "Environment:${{ inputs.environment }}"
+                echo "Environment:${{ github.event.inputs.environment }}" 
