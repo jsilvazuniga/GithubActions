@@ -5,8 +5,10 @@ on:
       inputs:
         environment:
             description: 'Environment to run'
-            type: environment
+            type: choice
             required: true
+            default: "DEV"
+            options: ["DEV", "VAL", "PROD"]
             
         logLevel:
             description: 'Log level'
@@ -15,10 +17,14 @@ on:
             type: choice
             options: ["info", "warning", "debug"]
 jobs:
-    dev:
+    build-app:
         runs-on: ubuntu-latest
+        width:
+            USERNAME: ${{ github.actor }}                  
+            LOG_LEVEL: ${{ inputs.logLevel }}
+            ENVIRONMENT: ${{ inputs.environment }}
         steps:
             - run: |
-                echo "USERNAME: ${{ github.actor }}"
-                echo "Environment: ${{ inputs.environment }}"
-                echo "logLevel: ${{ github.event.inputs.logLevel }}" 
+                echo "USERNAME: ${{ USERNAME }}"
+                echo "Environment: ${{ LOG_LEVEL }}"
+                echo "logLevel: ${{ ENVIRONMENT}}"
