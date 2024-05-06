@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "deploy": "ng build --prod --base-href=/angular-ci-cd/",
+    "deploy-prod": "ng build --configuration production --base-href=/angular-ci-cd/",
+    "deploy-dev": "ng build --configuration development --base-href=/angular-dev-ci-cd/",
+    "deploy-stage": "ng build --configuration stage --base-href=/angular-stage-ci-cd/",
     "test": "ng test"
   },
   "private": true,

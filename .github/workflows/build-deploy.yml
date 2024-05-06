@@ -29,3 +29,12 @@ jobs:
                 echo "USERNAME: $USERNAME"
                 echo "Environment: $LOG_LEVEL"
                 echo "logLevel: $ENVIRONMENT"
+            # We'll need to check out the repository so that we can edit the README
+            - name: Checkout
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0 # Let's get all the branches
+            - name: Build 
+                run: | 
+                    npm install 
+                    npm run-script deploy-prod
