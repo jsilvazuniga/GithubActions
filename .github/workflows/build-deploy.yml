@@ -5,10 +5,8 @@ on:
       inputs:
         environment:
             description: 'Environment to run'
-            type: choice
+            type: environment
             required: true
-            default: "DEV"
-            options: ["DEV", "VAL", "PROD"]
             
         logLevel:
             description: 'Log level'
@@ -24,6 +22,3 @@ jobs:
                 echo "USERNAME: ${{ github.actor }}"
                 echo "Environment: ${{ inputs.environment }}"
                 echo "logLevel: ${{ github.event.inputs.logLevel }}" 
-            env:
-                LEVEL: ${{ inputs.logLevel }}
-                ENVIRONMENT: ${{ inputs.environment }}
