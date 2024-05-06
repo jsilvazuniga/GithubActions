@@ -18,6 +18,7 @@ on:
             options: ["info", "warning", "debug"]
 jobs:
     build-app:
+        name: Build ${{ inputs.environment }} Level ${{ inputs.logLevel }} por ${{ github.actor }}
         runs-on: ubuntu-latest
         width:
             USERNAME: ${{ github.actor }}                  
