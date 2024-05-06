@@ -9,6 +9,7 @@ on:
             required: true
             default: "DEV"
             options: ["DEV", "VAL", "PROD"]
+            
         logLevel:
             description: 'Log level'
             required: true
