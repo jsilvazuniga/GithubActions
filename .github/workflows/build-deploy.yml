@@ -26,6 +26,6 @@ jobs:
             ENVIRONMENT: ${{ inputs.environment }}
         steps:
             - run: |
-                echo "USERNAME: ${{ USERNAME }}"
-                echo "Environment: ${{ LOG_LEVEL }}"
-                echo "logLevel: ${{ ENVIRONMENT}}"
+                echo "USERNAME: $USERNAME"
+                echo "Environment: $LOG_LEVEL"
+                echo "logLevel: $ENVIRONMENT"
