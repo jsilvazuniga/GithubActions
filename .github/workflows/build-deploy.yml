@@ -1,41 +1,46 @@
 name: Build and Deploy
-run-name:  Build and Deploy Angular application
-on:
+run-name: Build and Deploy Angular application
+'on':
   workflow_dispatch:
-      inputs:
-        environment:
-            description: 'Environment to run'
-            type: choice
-            required: true
-            default: "DEV"
-            options: ["DEV", "VAL", "PROD"]
-            
-        logLevel:
-            description: 'Log level'
-            required: true
-            default: 'warning'
-            type: choice
-            options: ["info", "warning", "debug"]
+    inputs:
+      environment:
+        description: Environment to run
+        type: choice
+        required: true
+        default: DEV
+        options:
+          - DEV
+          - VAL
+          - PROD
+      logLevel:
+        description: Log level
+        required: true
+        default: warning
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
 jobs:
-    build-app:
-        name: Build ${{ inputs.environment }} Level ${{ inputs.logLevel }} por ${{ github.actor }}
-        runs-on: ubuntu-latest
-        env:
-            USERNAME: ${{ github.actor }}                  
-            LOG_LEVEL: ${{ inputs.logLevel }}
-            ENVIRONMENT: ${{ inputs.environment }}
-        steps:
-            - run: |
-                echo "USERNAME: $USERNAME"
-                echo "Environment: $LOG_LEVEL"
-                echo "logLevel: $ENVIRONMENT"
-            # We'll need to check out the repository so that we can edit the README
-            - name: Checkout
-                uses: actions/checkout@v4
-                with:
-                    fetch-depth: 0 # Let's get all the branches
-            - name: Build 
-                if: ${{ env.ENVIRONMENT == 'PROD' }}
-                run: | 
-                    npm install 
-                    npm run-script deploy-prod
+  build-app:
+    name: >-
+      Build ${{ inputs.environment }} Level ${{ inputs.logLevel }} por ${{
+      github.actor }}
+    runs-on: ubuntu-latest
+    env:
+      USERNAME: '${{ github.actor }}'
+      LOG_LEVEL: '${{ inputs.logLevel }}'
+      ENVIRONMENT: '${{ inputs.environment }}'
+    steps:
+      - run: |
+          echo "USERNAME: $USERNAME"
+          echo "Environment: $LOG_LEVEL"
+          echo "logLevel: $ENVIRONMENT"
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build
+        run: |
+          npm install 
+          npm run-script deploy-prod
