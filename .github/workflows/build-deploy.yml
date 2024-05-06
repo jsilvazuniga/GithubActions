@@ -6,11 +6,7 @@ on:
         environment:
             description: 'Environment to run'
             type: environment
-            #type: choice
             required: true
-            #default: "DEV"
-            #options: ["DEV", "VAL", "PROD"]
-
         logLevel:
             description: 'Log level'
             required: true
