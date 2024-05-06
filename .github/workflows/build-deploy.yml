@@ -5,7 +5,7 @@ on:
       inputs:
         environment:
             description: 'Environment to run'
-            type: environment
+            type: choice
             required: true
             default: "DEV"
             options: ["DEV", "VAL", "PROD"]
