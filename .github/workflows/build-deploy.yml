@@ -45,11 +45,11 @@ jobs:
       - name: Build
         if: ${{ env.ENVIRONMENT == 'PROD' }}
         run: |
-          npm install 
+          npm ci 
           npm run-script deploy-prod
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          #GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           branch: gh-pages
-          folder: dist/angular-ci-cd
+          folder: build
