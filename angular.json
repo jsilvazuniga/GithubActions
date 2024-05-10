@@ -52,6 +52,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "stage": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -60,7 +68,22 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "myProject_GitHubActions:build:production"
+              "browserTarget": "myProject_GitHubActions:build:production",
+              "fileReplacements": [
+                { 
+                 "replace": "src/environments/environment.ts",
+                 "with": "src/environments/environment.prod.ts" 
+                }
+              ]             
+            },
+            "stage": {
+              "browserTarget": "myProject_GitHubActions:build:stage",
+              "fileReplacements": [
+                { 
+                 "replace": "src/environments/environment.ts",
+                 "with": "src/environments/environment.stage.ts" 
+                }
+              ]
             },
             "development": {
               "browserTarget": "myProject_GitHubActions:build:development"

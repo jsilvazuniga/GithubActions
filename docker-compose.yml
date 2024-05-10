@@ -1,0 +1,15 @@
+services:
+  myAngularApp:
+    container_name: myAngularApp
+    build:  .
+    image: my-angular-app:v1
+    ports: 
+      - 80:80
+    expose:
+      - 80
+    networks:
+      - mynetworkangularapp
+
+networks:
+  mynetworkangularapp:
+    driver: bridge

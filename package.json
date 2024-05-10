@@ -6,9 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "deploy-prod": "ng build --configuration production --base-href=/angular-ci-cd/",
-    "deploy-dev": "ng build --configuration development --base-href=/angular-dev-ci-cd/",
-    "deploy-stage": "ng build --configuration stage --base-href=/angular-stage-ci-cd/",
+    "deploy-prod": "ng build --configuration production",
+    "deploy-prod--": "ng build --configuration production --base-href=/my-project-git-hub-actions/",
+    "deploy-dev": "ng build --configuration development --base-href=/my-project-git-hub-actions/",
+    "deploy-stage": "ng build --configuration stage --base-href=/my-project-git-hub-actions/",
     "test": "ng test"
   },
   "private": true,
