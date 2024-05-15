@@ -2,15 +2,40 @@
 name: Build and Publish Docker Image to Docker hub
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+      inputs:
+        environment:
+            description: 'Environment to run'
+            type: choice
+            required: true
+            default: "DEV"
+            options: ["DEV", "STAGE", "PROD"]
 
+        logLevel:
+          description: 'Log level'
+          required: true
+          default: 'warning'
+          type: choice
+          options: ["info", "warning", "debug"]
+
+        tag:
+          description: 'Tag version'
+          required: true
+          default: 'lastest'
+          type: string
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
+      - name: "Setting"
+        run: |
+          echo "USERNAME: ${{ github.actor }}"
+          echo "Environment: ${{ inputs.environment }}"
+          echo "logLevel: ${{ github.event.inputs.logLevel }}" 
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          ENVIRONMENT: ${{ inputs.environment }}
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -28,7 +53,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t my-angular-app .
-          docker tag my-angular-app jsilvazuniga/my-angular-app:latest
+          docker tag my-angular-app jsilvazuniga/my-angular-app:${{ inputs.tag }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -37,4 +62,4 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Push image to Docker Hub
-        run: docker push jsilvazuniga/my-angular-app:latest
+        run: docker push jsilvazuniga/my-angular-app:${{ inputs.tag }}
