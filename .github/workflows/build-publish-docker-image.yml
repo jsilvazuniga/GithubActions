@@ -59,6 +59,17 @@ jobs:
     if: ${{ inputs.environment== 'STAGE' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Build Angular app stage
         run: npm run-script deploy-stage
 
@@ -66,10 +77,23 @@ jobs:
     if: ${{ inputs.environment== 'PROD' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        
       - name: Build Angular app prod
         run: npm run-script deploy-prod
 
   build-image-docker:
+    if: ${{ always() }}
+    needs: [context-env-dev, context-env-stage,  context-env-prod]
     runs-on: ubuntu-latest
     steps:    
       - name: Build Docker image
