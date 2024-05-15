@@ -37,7 +37,7 @@ jobs:
           echo "Environment: ${{ inputs.environment }}"
           echo "logLevel: ${{ github.event.inputs.logLevel }}" 
 
-  context-env-dev:
+  build-app-dev:
     if: ${{ inputs.environment== 'DEV' }}
     runs-on: ubuntu-latest
     steps:
@@ -55,7 +55,7 @@ jobs:
       - name: Build Angular app dev
         run: npm run-script deploy-dev
 
-  context-env-stage:
+  build-app-stage:
     if: ${{ inputs.environment== 'STAGE' }}
     runs-on: ubuntu-latest
     steps:
@@ -73,7 +73,7 @@ jobs:
       - name: Build Angular app stage
         run: npm run-script deploy-stage
 
-  context-env-prod:
+  build-app-prod:
     if: ${{ inputs.environment== 'PROD' }}
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +93,7 @@ jobs:
 
   build-image-docker:
     if: ${{ always() }}
-    needs: [context-env-dev, context-env-stage,  context-env-prod]
+    needs: [build-app-dev, build-app-stage,  build-app-prod]
     runs-on: ubuntu-latest
     steps:    
       - name: Build Docker image
