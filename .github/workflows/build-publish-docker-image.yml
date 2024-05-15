@@ -28,7 +28,7 @@ env:
   environment: ${{ inputs.environment }}
   tag: ${{ inputs.tag }}
 jobs:
-  build-app:
+  setting-app:
     runs-on: ubuntu-latest
     steps:
       - name: "Setting"
@@ -39,6 +39,7 @@ jobs:
 
   build-app-dev:
     if: ${{ inputs.environment== 'DEV' }}
+    needs: [setting-app]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -57,6 +58,7 @@ jobs:
 
   build-app-stage:
     if: ${{ inputs.environment== 'STAGE' }}
+    needs: [setting-app]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -75,6 +77,7 @@ jobs:
 
   build-app-prod:
     if: ${{ inputs.environment== 'PROD' }}
+    needs: [setting-app]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -96,6 +99,9 @@ jobs:
     needs: [build-app-dev, build-app-stage,  build-app-prod]
     runs-on: ubuntu-latest
     steps:    
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Build Docker image
         run: |
           docker build -t my-angular-app .
