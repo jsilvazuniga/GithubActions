@@ -40,6 +40,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+
+  context-env-dev:
+    if: ${{ inputs.environment== 'DEV' }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -47,11 +52,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-  
-  context-env-dev:
-    if: ${{ inputs.environment== 'DEV' }}
-    runs-on: ubuntu-latest
-    steps:
+        
       - name: Build Angular app dev
         run: npm run-script deploy-dev
 
