@@ -23,8 +23,12 @@ on:
           required: true
           default: 'lastest'
           type: string
+env:
+  level: ${{ inputs.logLevel }}
+  environment: ${{ inputs.environment }}
+  tag: ${{ inputs.tag }}
 jobs:
-  build:
+  build-app:
     runs-on: ubuntu-latest
     steps:
       - name: "Setting"
@@ -32,9 +36,6 @@ jobs:
           echo "USERNAME: ${{ github.actor }}"
           echo "Environment: ${{ inputs.environment }}"
           echo "logLevel: ${{ github.event.inputs.logLevel }}" 
-        env:
-          LEVEL: ${{ inputs.logLevel }}
-          ENVIRONMENT: ${{ inputs.environment }}
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -42,18 +43,39 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
+  
+  context-env-dev:
+    if: ${{ inputs.environment== 'DEV' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Angular app dev
+        run: npm run-script deploy-dev
 
-      - name: Build Angular app
+  context-env-stage:
+    if: ${{ inputs.environment== 'STAGE' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Angular app stage
+        run: npm run-script deploy-stage
+
+  context-env-prod:
+    if: ${{ inputs.environment== 'PROD' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Angular app prod
         run: npm run-script deploy-prod
 
+  build-image-docker:
+    runs-on: ubuntu-latest
+    steps:    
       - name: Build Docker image
         run: |
           docker build -t my-angular-app .
-          docker tag my-angular-app jsilvazuniga/my-angular-app:${{ inputs.tag }}
+          docker tag my-angular-app jsilvazuniga/my-angular-app:${{ env.tag }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -62,4 +84,4 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Push image to Docker Hub
-        run: docker push jsilvazuniga/my-angular-app:${{ inputs.tag }}
+        run: docker push jsilvazuniga/my-angular-app:${{ env.environment }}.${{ env.tag }}
