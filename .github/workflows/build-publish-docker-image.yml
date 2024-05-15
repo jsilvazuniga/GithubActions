@@ -37,14 +37,13 @@ jobs:
           echo "Environment: ${{ inputs.environment }}"
           echo "logLevel: ${{ github.event.inputs.logLevel }}" 
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-
   context-env-dev:
     if: ${{ inputs.environment== 'DEV' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
